@@ -1,11 +1,11 @@
 const validateFieldsLogin = (req, res, next) => {
-      const { email, password } = req.body;
+  const { email, password } = req.body;
     
-      if (!email || !password) {
+    if (!email || !password) {
         return res.status(400).json({ message: 'Some required fields are missing' });
-      }
+    }
     
-      return next();
+    return next();
 };
 
 module.exports = validateFieldsLogin;
