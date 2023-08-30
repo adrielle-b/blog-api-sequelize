@@ -11,7 +11,7 @@ const validateToken = (req, res, next) => {
 
   try {
    const tokenDecode = jwt.verify(token, process.env.JWT_SECRET);
-   req.body.user = tokenDecode;
+   req.user = tokenDecode;
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Expired or invalid token' });

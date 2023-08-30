@@ -10,8 +10,8 @@ const login = async (email, password) => {
         };
     }
 
-    const tokenJwt = generateToken({ email });
-
+    const tokenJwt = generateToken({ email, userId: user.id });
+    
     return { status: 'SUCCESSFUL', data: { token: tokenJwt } };
 };
 
