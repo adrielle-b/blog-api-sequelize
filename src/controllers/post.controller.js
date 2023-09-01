@@ -20,7 +20,18 @@ const getAll = async (req, res) => {
     }
 };
 
+const getById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status, data } = await postService.getById(id);
+        res.status(mapStatusHTTP(status)).json(data);
+    } catch (error) {
+        res.status(500).json({ message: 'Algo deu errado' });
+    }
+};
+
 module.exports = {
     insert,
     getAll,
+    getById,
 };
