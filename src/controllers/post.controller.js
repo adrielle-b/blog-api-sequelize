@@ -39,7 +39,7 @@ const update = async (req, res) => {
         const { status, data } = await postService.update(id, title, content, userId);
         res.status(mapStatusHTTP(status)).json(data);
     } catch (error) {
-        res.status(500).json({ message: 'Algo deu errado', erro: error.message });
+        res.status(500).json({ message: 'Algo deu errado' });
     }
 };
 
