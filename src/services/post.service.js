@@ -1,24 +1,11 @@
 const { sequelize, BlogPost, PostCategory, Category, User } = require('../models');
+const { categoryIdVerify } = require('./validations/post.validations');
 
-const categoryIdVerify = async (categoryIds) => {
-    const promises = categoryIds.map((id) => Category.findByPk(id));
-    const categoryIdsExist = await Promise.all(promises);
-
-    const errorResults = categoryIdsExist.some((result) => result === null);
-    if (errorResults) {
-      return { status: 'BAD_REQUEST', message: 'one or more "categoryIds" not found' };
-    }
-  };
-
-const insert = async (user, post) => {
-    const { userId } = user;
-    const { title, content, categoryIds } = post;
-
-    const errorCategories = await categoryIdVerify(post.categoryIds);
+const insert = async ({ userId }, { title, content, categoryIds }) => {
+    const errorCategories = await categoryIdVerify(categoryIds);
     if (errorCategories) {
       return { status: errorCategories.status, data: { message: errorCategories.message } };
     }
-    
     const createPost = await sequelize.transaction(async (t) => {
       const insertBlogPost = await BlogPost.create({ title, content, userId }, { transaction: t });
       const insertPostCategoryList = categoryIds.map((categoryId) => ({
@@ -48,7 +35,6 @@ const getById = async (id) => {
       { model: Category, as: 'categories', through: { attributes: [] } },
     ],
   });
-
   if (!post) return { status: 'NOT_FOUND', data: { message: 'Post does not exist' } };
   return { status: 'SUCCESSFUL', data: post };
 };
@@ -58,7 +44,6 @@ const update = async (postId, title, content, userId) => {
   if (blogPost.userId !== userId) {
     return { status: 'UNAUTHORIZED', data: { message: 'Unauthorized user' } };
   } 
-  
   await BlogPost.update(
     { title, content, updated: Date.now() },
     { where: { id: postId } },
