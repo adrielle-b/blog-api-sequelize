@@ -53,8 +53,23 @@ const getById = async (id) => {
   return { status: 'SUCCESSFUL', data: post };
 };
 
+const update = async (postId, title, content, userId) => {
+  const blogPost = await BlogPost.findByPk(postId);
+  if (blogPost.userId !== userId) {
+    return { status: 'UNAUTHORIZED', data: { message: 'Unauthorized user' } };
+  } 
+  
+  await BlogPost.update(
+    { title, content, updated: Date.now() },
+    { where: { id: postId } },
+  );
+  const postUpdated = await getById(postId);
+  return postUpdated;
+};
+
 module.exports = {
     insert,
     getAll,
     getById,
+    update,
 };

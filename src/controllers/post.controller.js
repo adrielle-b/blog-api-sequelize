@@ -30,8 +30,22 @@ const getById = async (req, res) => {
     }
 };
 
+const update = async (req, res) => {
+    const { id } = req.params;
+    const { title, content } = req.body;
+    const { userId } = req.user;
+
+    try {
+        const { status, data } = await postService.update(id, title, content, userId);
+        res.status(mapStatusHTTP(status)).json(data);
+    } catch (error) {
+        res.status(500).json({ message: 'Algo deu errado', erro: error.message });
+    }
+};
+
 module.exports = {
     insert,
     getAll,
     getById,
+    update,
 };

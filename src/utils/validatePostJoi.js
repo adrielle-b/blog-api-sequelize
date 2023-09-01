@@ -8,4 +8,13 @@ const validateFieldsJoi = (body) => Joi.object({
     categoryIds: Joi.array().required(),
     }).error(new Error(message)).validate(body);
 
-module.exports = validateFieldsJoi;
+const validateFieldsJoiUpdate = (body) => 
+    Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+    }).error(new Error(message)).validate(body);
+
+module.exports = {
+    validateFieldsJoi,
+    validateFieldsJoiUpdate,
+};
