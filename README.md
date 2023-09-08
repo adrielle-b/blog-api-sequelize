@@ -4,7 +4,7 @@
 
 ## Descrição
 
-Este projeto é uma aplicação backend desenvolvida em arquitetura em camadas, para gerenciar blogs e seus posts com operações CRUD (Criar, Ler, Atualizar, Excluir).
+Este projeto é uma aplicação backend com token JWT e arquitetura em camadas, para gerenciar blogs e seus posts com operações CRUD (Criar, Ler, Atualizar, Excluir).
 
 ### 📐 Arquitetura baseada em camadas
 
