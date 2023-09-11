@@ -1,5 +1,5 @@
 const { sequelize, BlogPost, PostCategory, Category, User } = require('../models');
-const { categoryIdVerify } = require('./validations/post.validations');
+const { categoryIdVerify, postVerify } = require('./validations/post.validations');
 
 const insert = async ({ userId }, { title, content, categoryIds }) => {
     const errorCategories = await categoryIdVerify(categoryIds);
@@ -52,9 +52,21 @@ const update = async (postId, title, content, userId) => {
   return postUpdated;
 };
 
+const remove = async (postId, userId) => {
+  const error = await postVerify(postId, userId);
+  if (error) return { status: error.status, data: { message: error.message } };
+
+  await BlogPost.destroy(
+    { where: { id: postId } },
+  );
+
+  return { status: 'DELETED' };
+};
+
 module.exports = {
     insert,
     getAll,
     getById,
     update,
+    remove,
 };
