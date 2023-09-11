@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             field: 'user_id',
             foreignKey: true,
+            onUpdate: 'CASCADE',
+            onDelete:'CASCADE',
         },
         published: {
             allowNull: false,
