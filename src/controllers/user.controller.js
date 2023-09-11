@@ -32,8 +32,16 @@ const getById = async (req, res) => {
   }
 };
 
+const remove = async (req, res) => {
+  const { userId } = req.user;
+  const { status } = await userService.remove(userId);
+
+  return res.status(mapStatusHTTP(status)).end();
+};
+
 module.exports = {
   insert,
   getAll,
   getById,
+  remove,
 };
